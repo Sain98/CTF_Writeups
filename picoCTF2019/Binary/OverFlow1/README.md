@@ -51,7 +51,7 @@ now all that is left is to write the remaining 4 bytes as a address to the funct
 
 now to write our exploit script, i used python & pwntools (note: this is setup to work locally, if you want it to work on the picoCTF server check exploit.py -i couldnt get the script to work properly using the pwntools ssh so you are supposed to run it manually now);
 
-```
+```python
 from pwn import *
 # Flag function is located @ 0x080485e6
 flag_function = util.packing.p32(0x080485e6)
