@@ -3,7 +3,7 @@
 Similar to Overflow1 except that we have to overwrite the return address and pass 2 arguments to the flag function
 
 ## The Vulnerability
-it calls 'gets', a function that is known to be very dangerous (it even says it in the man page to never use this function) The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). No check for buffer overrun is performed, so it keeps reading input, even if this is way bigger than the amount of memory allocated for that string causing it to overwrite values from the stack.
+It calls 'gets', a function that is known to be very dangerous (according to the documentation this function should never be used) The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). No check for buffer overrun is performed, so it keeps reading input, even if this is larger than the amount of memory allocated for that string causing it to overwrite values from the stack.
 
 ## File info
 ```
@@ -33,28 +33,28 @@ if (arg2 != 0xC0DED00D)
 printf(buf);
 ```
 
-disassemble:
+disassembly:
 
 ![picture alt](https://i.gyazo.com/c00092c0725b3ddaf7c4e3d6de9a1959.png)
 
-Okay now we have an idea of where we have to go with the arguments let's get to the buffer overflow part
+Okay now that we have an idea of where we have to go with the arguments let's get to the buffer overflow part
 
 First of all we know our buffersize is 176
-If we fill up that buffer with 'A' our stack kinda looks like this:
+If we fill up that buffer with 'A' our stack looks something like this:
 
 ![picture alt](https://i.gyazo.com/dfb59969aa2e28b538845eac4f7f7f6c.png)
 
 Our return address is again 12 bytes after our buffer `0x0804871c` -> main+103
 
-and our flag is located @ `0x080485e6`
-so now we can do a small test to see the stack inside our flag function and see where we need to put the arguments
+and our flag is located at `0x080485e6`
+so now we can do a small test to see the stack inside our flag function and see where we need to input the arguments
 
 input here was: `python -c "'A' * 176 + 'B' * 12 + '\xe6\x85\x04\x08'"`
 
 ![picture alt](https://i.gyazo.com/81a7107a62a00f4d79a807e8e699b853.png)
 
-As you can see there are 4 empty bytes inbetween our buffer and `ebp+0x8`
-so we gotta modify our input a bit by adding 4 more bytes to our payload; behind the flag address
+As you can see there are 4 empty bytes in between our buffer and `ebp+0x8`
+so we have to modify our input a bit by adding 4 more bytes to our payload; behind the flag address
 
 and then finally after those 4 we can put in the values it compares to in the disassembly
 
