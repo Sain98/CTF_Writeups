@@ -4,11 +4,7 @@ Simple buffer overflow,
 the actual vulnerability is inside the function 'vuln'
 
 ## The vulnerability
-it calls 'gets', a function that is known the be very dangerous (it even says it in the man page to never use this function)
-The reason this function is dangerous is because of how it works:
-'gets(char \*s)  reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\\0').  No check for buffer overrun is performed'
-So it keeps reading input, even if this is way bigger then the amount of memory allocated for that string
-Causing it the overwrite values from the stack
+it calls 'gets', a function that is known to be very dangerous (it even says it in the man page to never use this function) The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). No check for buffer overrun is performed, so it keeps reading input, even if this is way bigger than the amount of memory allocated for that string causing it to overwrite values from the stack.
 
 ## File info
 ```
