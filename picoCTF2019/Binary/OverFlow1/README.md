@@ -49,6 +49,7 @@ The stack grows from esp -> ebp -> and past it
 ![picture alt](https://i.gyazo.com/4f6fe4c601e114590933f72ca9aa6f54.png)
 
 The look from $esp:
+
 ![picture alt](https://i.gyazo.com/7f06c8a65a792ed684dc6cf60e71b029.png)
 
 As you can see, using a string "A" of length 64 we are still, 12 bytes of overwriting the return address to main
