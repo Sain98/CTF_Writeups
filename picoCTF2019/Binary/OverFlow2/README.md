@@ -3,7 +3,9 @@
 Similar to Overflow1 except that we have to overwrite the return address and pass 2 arguments to the flag function
 
 ## The Vulnerability
-It calls 'gets', a function that is known to be very dangerous (according to the documentation this function should never be used) The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). No check for buffer overrun is performed, so it keeps reading input, even if this is larger than the amount of memory allocated for that string causing it to overwrite values from the stack.
+It calls 'gets', a function that is known to be very dangerous (according to the documentation this function should never be used) 
+The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). 
+No check for buffer overrun is performed, so it keeps reading input, even if this is larger than the amount of memory allocated for that string causing it to overwrite values from the stack.
 
 ## File info
 ```
@@ -18,7 +20,7 @@ vuln: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically link
     PIE:      No PIE (0x8048000)
 ```
 
-## Exploit it
+## Exploit
 
 The exploit itself will work just like Overflow1 except that we have to find out where to put the arguments on the stack.
 
