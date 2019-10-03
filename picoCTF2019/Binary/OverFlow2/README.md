@@ -1,9 +1,9 @@
 # PicoCTF 2019 - Binary Exploit - Overflow2
 
-Similar to Overflow1 except that we have to overwrite the return address and pass 2 arguments to the flag funtion
+Similar to Overflow1 except that we have to overwrite the return address and pass 2 arguments to the flag function
 
 ## The Vulnerability
-it calls 'gets', a function that is known the be very dangerous (it even says it in the man page to never use this function) The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). No check for buffer overrun is performed' So it keeps reading input, even if this is way bigger then the amount of memory allocated for that string Causing it the overwrite values from the stack
+it calls 'gets', a function that is known to be very dangerous (it even says it in the man page to never use this function) The reason this function is dangerous is because of how it works: 'gets(char \*s) reads a line from stdin into the buffer pointed to by s until either a terminating newline or EOF, which it replaces with a null byte ('\0'). No check for buffer overrun is performed, so it keeps reading input, even if this is way bigger than the amount of memory allocated for that string causing it to overwrite values from the stack.
 
 ## File info
 ```
@@ -20,9 +20,9 @@ vuln: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically link
 
 ## Exploit it
 
-The exploit itself will work just like Overflow1 except that we have the find out where to put the arguments on the stack
+The exploit itself will work just like Overflow1 except that we have to find out where to put the arguments on the stack.
 
-if we look at the disassembly of 'flag' we can see it gets the args from `ebp+0x8` & `ebp+0xc`
+If we look at the disassembly of 'flag' we can see it gets the args from `ebp+0x8` & `ebp+0xc`
 
 source c:
 ```c
@@ -37,14 +37,14 @@ disassemble:
 
 ![picture alt](https://i.gyazo.com/c00092c0725b3ddaf7c4e3d6de9a1959.png)
 
-okay now to we have an idea of where we have to go with the arguments lets get to the buffer overflow part
+Okay now we have an idea of where we have to go with the arguments let's get to the buffer overflow part
 
-first of all we know our buffersize is 176
-if we fill up that buffer with 'A' our stack kinda looks like this:
+First of all we know our buffersize is 176
+If we fill up that buffer with 'A' our stack kinda looks like this:
 
 ![picture alt](https://i.gyazo.com/dfb59969aa2e28b538845eac4f7f7f6c.png)
 
-our return address is again 12 bytes after our buffer `0x0804871c` -> main+103
+Our return address is again 12 bytes after our buffer `0x0804871c` -> main+103
 
 and our flag is located @ `0x080485e6`
 so now we can do a small test to see the stack inside our flag function and see where we need to put the arguments
